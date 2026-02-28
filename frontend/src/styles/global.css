@@ -1,0 +1,28 @@
+:root {
+  /* Colors */
+  --color-bg: #E8ECEF;
+  --color-primary: #C4D8E5;
+  --color-primary-hover: #A7C7E7;
+  --color-text: #1f2937;
+  --color-card: #ffffff;
+  --color-border: #8EB1D1 ;
+  --color-darkest: #1C2B48;
+
+  /* Fonts */
+  --font-main: 'Roboto', sans-serif;
+
+  /* Spacing */
+  --radius: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  font-family: var(--font-main);
+  color: var(--color-text);
+}

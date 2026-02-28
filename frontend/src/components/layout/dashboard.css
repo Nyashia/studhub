@@ -1,0 +1,72 @@
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fdf6f0 0%, #f0e9ff 100%);
+}
+
+.sidebar {
+  width: 240px;
+  padding: 2rem 1.5rem;
+  background: var(--color-primary, 0.3);
+  border-radius: 96px;
+  color: #2d4a6e;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2 ease;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar li {
+  display: flex;
+  padding: 7px 1px;
+  margin: 6px 0;
+}
+
+.sidebar li:hover {
+  transform: translateX(6px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(255, 150, 200, 0.2);
+  color: var(--color-darkest);
+}
+
+.sidebar li i {
+  font-size: 1.3rem;
+  width: 28px;
+  transition: transform 0.2s ease;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+.greeting {
+  margin-bottom: 1.5rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1.5rem;
+}
+
+.schedule, .tasks {
+  margin-bottom: 2rem;
+}
+
+.schedule ul, .tasks ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.schedule li, .tasks li {
+  background-color: #f0f4f8;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+}
