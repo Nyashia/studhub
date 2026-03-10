@@ -4,31 +4,36 @@
   background: linear-gradient(135deg, #fdf6f0 0%, #f0e9ff 100%);
 }
 
+/* LEFT SIDEBAR */
 .sidebar {
   width: 240px;
   padding: 2rem 1.5rem;
-  background: var(--color-primary, 0.3);
+  background: var(--color-primary, #dbe4ff);
   border-radius: 96px;
   color: #2d4a6e;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2 ease;
+  transition: all 0.2s ease;
 }
+
 .sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .sidebar li {
   display: flex;
+  align-items: center;
   padding: 7px 1px;
   margin: 6px 0;
+  transition: all 0.2s ease;
 }
 
 .sidebar li:hover {
   transform: translateX(6px) scale(1.02);
   box-shadow: 0 4px 12px rgba(255, 150, 200, 0.2);
-  color: var(--color-darkest);
+  color: var(--color-darkest, #123f5f);
 }
 
 .sidebar li i {
@@ -37,11 +42,35 @@
   transition: transform 0.2s ease;
 }
 
+/* MAIN CONTENT */
 .content {
   flex: 1;
+  display: flex;       /* layout columns */
+  gap: 20px;           /* space between main & right */
   padding: 30px;
+  flex-wrap: nowrap;   /* keep sidebar beside main content */
 }
 
+/* main content column */
+.main-content {
+  flex: 2;            
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* RIGHT SIDEBAR */
+.right-panel {
+  flex: 1;             
+  background-color: #f6f8fb;
+  padding: 16px;
+  border-radius: 12px;
+  height: fit-content; 
+}
+
+/* Greeting and search bar */
 .greeting {
   margin-bottom: 1.5rem;
 }
@@ -55,6 +84,7 @@
   margin-bottom: 1.5rem;
 }
 
+/* Schedule + Tasks lists */
 .schedule, .tasks {
   margin-bottom: 2rem;
 }
@@ -69,4 +99,33 @@
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
   border-radius: 5px;
+}
+
+/* Task cards */
+.task-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.task-card.completed h4 {
+  text-decoration: line-through;
+}
+
+.task-buttons button {
+  margin-left: 10px;
+}
+
+/* Right panel placeholder sections */
+.right-panel h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #123f5f;
+}
+
+.right-panel p, .right-panel ul {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
 }

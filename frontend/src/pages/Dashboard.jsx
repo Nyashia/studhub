@@ -97,24 +97,19 @@ function Dashboard() {
       task.status === "completed" ? "pending" : "completed";
 
     try {
-      const res = await fetch(
-        `http://localhost:5000/task/${task._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ status: newStatus }),
-        }
-      );
+      const res = await fetch(`http://localhost:5000/task/${task._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
 
       const updatedTask = await res.json();
 
       setTasks((prev) =>
-        prev.map((t) =>
-          t._id === updatedTask._id ? updatedTask : t
-        )
+        prev.map((t) => (t._id === updatedTask._id ? updatedTask : t))
       );
     } catch (error) {
       console.error(error);
@@ -133,28 +128,23 @@ function Dashboard() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(
-        `http://localhost:5000/task/${editingTaskId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            title,
-            description,
-            dueDate,
-          }),
-        }
-      );
+      const res = await fetch(`http://localhost:5000/task/${editingTaskId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          dueDate,
+        }),
+      });
 
       const updatedTask = await res.json();
 
       setTasks((prev) =>
-        prev.map((t) =>
-          t._id === updatedTask._id ? updatedTask : t
-        )
+        prev.map((t) => (t._id === updatedTask._id ? updatedTask : t))
       );
 
       setEditingTaskId(null);
@@ -170,137 +160,113 @@ function Dashboard() {
     .filter((task) =>
       task.title.toLowerCase().includes(search.toLowerCase())
     )
-    .filter((task) =>
-      filter === "all" ? true : task.status === filter
-    );
+    .filter((task) => (filter === "all" ? true : task.status === filter));
 
   return (
     <DashboardLayout>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h1>Dashboard</h1>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-
-      <h2>Hey Nyashia 👋</h2>
-
-      {/* CREATE / EDIT FORM */}
-      <section style={{ marginTop: "20px" }}>
-        <h3>{editingTaskId ? "Edit Task" : "Create Task"}</h3>
-        <form
-          onSubmit={editingTaskId ? handleUpdateTask : handleCreateTask}
-        >
-          <input
-            type="text"
-            placeholder="Task title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <br />
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-          />
-          <br />
-          <button type="submit">
-            {editingTaskId ? "Update Task" : "Add Task"}
-          </button>
-        </form>
-      </section>
-
-      {/* SEARCH + FILTER */}
-      <section style={{ marginTop: "30px" }}>
-        <input
-          type="text"
-          placeholder="Search tasks..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <div style={{ marginTop: "10px" }}>
-          <button onClick={() => setFilter("all")}>All</button>
-          <button onClick={() => setFilter("pending")}>
-            Pending
-          </button>
-          <button onClick={() => setFilter("completed")}>
-            Completed
-          </button>
-        </div>
-      </section>
-
-      {/* TASK LIST */}
-      <section style={{ marginTop: "20px" }}>
-        {loading ? (
-          <p>Loading...</p>
-        ) : filteredTasks.length === 0 ? (
-          <p>No tasks found.</p>
-        ) : (
-          <div style={{ marginTop: "20px" }}>
-            {filteredTasks.map((task) => (
-              <div
-                key={task._id}
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "15px",
-                  marginBottom: "10px",
-                  borderRadius: "8px",
-                }}
-              >
-                <h4
-                  style={{
-                    textDecoration:
-                      task.status === "completed"
-                        ? "line-through"
-                        : "none",
-                  }}
-                >
-                  {task.title}
-                </h4>
-
-                <p>{task.description}</p>
-                <small>
-                  Due:{" "}
-                  {task.dueDate
-                    ? new Date(task.dueDate).toLocaleDateString()
-                    : "No date"}
-                </small>
-                <br />
-                <small>Status: {task.status}</small>
-
-                <div style={{ marginTop: "10px" }}>
-                  <button onClick={() => toggleComplete(task)}>
-                    {task.status === "completed"
-                      ? "Undo"
-                      : "Complete"}
-                  </button>
-
-                  <button
-                    onClick={() => handleEdit(task)}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => deleteTask(task._id)}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
+      <div className="content">
+        {/* Main Content Column */}
+        <div className="main-content">
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h1>Dashboard</h1>
+            <button onClick={handleLogout}>Logout</button>
           </div>
-        )}
-      </section>
+
+          <h2>Hey Nyashia 👋</h2>
+
+          {/* CREATE / EDIT FORM */}
+          <section style={{ marginTop: "20px" }}>
+            <h3>{editingTaskId ? "Edit Task" : "Create Task"}</h3>
+            <form
+              onSubmit={editingTaskId ? handleUpdateTask : handleCreateTask}
+            >
+              <input
+                type="text"
+                placeholder="Task title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+              <br />
+              <input
+                type="text"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <br />
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+              />
+              <br />
+              <button type="submit">
+                {editingTaskId ? "Update Task" : "Add Task"}
+              </button>
+            </form>
+          </section>
+
+          {/* SEARCH + FILTER */}
+          <section style={{ marginTop: "30px" }}>
+            <input
+              type="text"
+              placeholder="Search tasks..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+            <div style={{ marginTop: "10px" }}>
+              <button onClick={() => setFilter("all")}>All</button>
+              <button onClick={() => setFilter("pending")}>Pending</button>
+              <button onClick={() => setFilter("completed")}>Completed</button>
+            </div>
+          </section>
+
+          {/* TASK LIST */}
+          <section style={{ marginTop: "20px" }}>
+            {loading ? (
+              <p>Loading...</p>
+            ) : filteredTasks.length === 0 ? (
+              <p>No tasks found.</p>
+            ) : (
+              filteredTasks.map((task) => (
+                <div
+                  key={task._id}
+                  className={`task-card ${
+                    task.status === "completed" ? "completed" : ""
+                  }`}
+                >
+                  <h4>{task.title}</h4>
+                  <p>{task.description}</p>
+                  <small>
+                    Due:{" "}
+                    {task.dueDate
+                      ? new Date(task.dueDate).toLocaleDateString()
+                      : "No date"}
+                  </small>
+                  <br />
+                  <small>Status: {task.status}</small>
+
+                  <div className="task-buttons">
+                    <button onClick={() => toggleComplete(task)}>
+                      {task.status === "completed" ? "Undo" : "Complete"}
+                    </button>
+                    <button onClick={() => handleEdit(task)}>Edit</button>
+                    <button onClick={() => deleteTask(task._id)}>Delete</button>
+                  </div>
+                </div>
+              ))
+            )}
+          </section>
+        </div>
+
+        {/* Right Sidebar Placeholder */}
+        <div className="right-panel">
+          <h3>Right Sidebar</h3>
+          <p>Calendar, To-Do, Upcoming tasks will go here.</p>
+        </div>
+      </div>
     </DashboardLayout>
   );
 }
