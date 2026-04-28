@@ -1,0 +1,272 @@
+/* ========== LAYOUT ========== */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+/* LEFT SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: white;
+  padding: 24px 20px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 32px;
+  color: #1a3a5c;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 4px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #4a5568;
+}
+
+.sidebar li:hover {
+  background: #eef2ff;
+  color: #1a3a5c;
+}
+
+.sidebar li i {
+  width: 24px;
+  margin-right: 12px;
+}
+
+/* MAIN AREA (content + right panel) */
+.main-area {
+  flex: 1;
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+}
+
+/* MAIN CONTENT */
+.content {
+  flex: 3;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* RIGHT PANEL */
+.right-panel {
+  flex: 1;
+  min-width: 280px;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+/* ========== TASK CARD ========== */
+.task-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+}
+
+.task-card.completed {
+  background: #f8fafc;
+  opacity: 0.7;
+}
+
+.task-card.completed h4 {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.task-card h4 {
+  margin: 0 0 8px 0;
+  color: #1e293b;
+}
+
+.task-card p {
+  margin: 0 0 8px 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.task-card small {
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+/* ========== BUTTONS ========== */
+button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.task-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.task-buttons button:first-child {
+  background: #22c55e;
+  color: white;
+}
+
+.task-buttons button:nth-child(2) {
+  background: #3b82f6;
+  color: white;
+}
+
+.task-buttons button:last-child {
+  background: #ef4444;
+  color: white;
+}
+
+button[type="submit"] {
+  background: #1e293b;
+  color: white;
+  margin-top: 8px;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+}
+
+/* ========== FORM INPUTS ========== */
+input, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* ========== SEARCH & FILTER ========== */
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.filter-buttons button {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+/* ========== RIGHT PANEL CONTENT ========== */
+.right-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.right-panel li {
+  background: #f8fafc;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border-left: 3px solid #3b82f6;
+}
+
+.right-panel li strong {
+  color: #1e293b;
+}
+
+.right-panel li small {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+/* ========== HEADER ========== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: #1e293b;
+}
+
+.greeting {
+  margin-bottom: 24px;
+}
+
+.greeting h2 {
+  margin: 0;
+  color: #334155;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .sidebar li {
+    padding: 8px 12px;
+  }
+  
+  .main-area {
+    flex-direction: column;
+  }
+  
+  .content, .right-panel {
+    width: 100%;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
