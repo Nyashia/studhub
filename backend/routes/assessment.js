@@ -6,7 +6,7 @@ const protect = require("../middleware/authMiddleware");
 // GET all assessments for logged-in user (sorted by date, closest first)
 router.get("/", protect, async (req, res) => {
   try {
-    const assessments = await Assessment.find({ userId: req.user.userId }).sort({ date: 1 });
+    const assessments = await Assessment.find({ user: req.user.userId }).sort({ date: 1 });
     res.json(assessments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -18,7 +18,7 @@ router.get("/:id", protect, async (req, res) => {
   try {
     const assessment = await Assessment.findOne({
       _id: req.params.id,
-      userId: req.user.userId
+      user: req.user.userId  
     });
     if (!assessment) return res.status(404).json({ message: "Assessment not found" });
     res.json(assessment);
@@ -32,7 +32,7 @@ router.post("/", protect, async (req, res) => {
   try {
     const { name, subject, date, notes, type } = req.body;
     const assessment = await Assessment.create({
-      userId: req.user.userId,
+      user: req.user.userId,  
       name,
       subject,
       date,
@@ -49,7 +49,7 @@ router.post("/", protect, async (req, res) => {
 router.put("/:id", protect, async (req, res) => {
   try {
     const assessment = await Assessment.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.userId },
+      { _id: req.params.id, user: req.user.userId },  
       req.body,
       { new: true, runValidators: true }
     );
@@ -65,7 +65,7 @@ router.delete("/:id", protect, async (req, res) => {
   try {
     const assessment = await Assessment.findOneAndDelete({
       _id: req.params.id,
-      userId: req.user.userId
+      user: req.user.userId  
     });
     if (!assessment) return res.status(404).json({ message: "Assessment not found" });
     res.json({ message: "Assessment deleted" });

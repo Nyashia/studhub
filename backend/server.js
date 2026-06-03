@@ -1,16 +1,15 @@
-const dotenv = require('dotenv');
-dotenv.config
+require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const taskRoutes = require("./routes/taskRoutes");
 const userRoutes = require("./routes/user");      
 const loginRoute = require("./routes/login");    
 const registerRoute = require("./routes/register");
 const assessmentRoute = require("./routes/assessment");
 const todoRoutes = require('./routes/todos');
+const scheduleRoutes = require("./routes/schedule");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,12 +38,12 @@ mongoose.connect(mongoURI)
     console.log('MongoDB connected successfully!');
 
     // Routes
-    app.use("/task", taskRoutes);
     app.use("/users", userRoutes);      
     app.use("/login", loginRoute); 
     app.use("/register", registerRoute); 
-    app.use("/assessment", assessmentRoute);
+    app.use("/assessments", assessmentRoute);
     app.use("/todos", todoRoutes);
+    app.use("/schedule", scheduleRoutes);
 
     app.get('/', (req, res) => {
       res.send('Hello StudHub backend!');
