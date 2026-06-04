@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Assessments from "./pages/Assessments";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import StudyBuddy from "./pages/StudyBuddy";
 
 // Loading component while checking auth
 const LoadingScreen = () => (
@@ -36,7 +37,7 @@ const ProtectedRoute = ({ children }) => {
         const res = await fetch("http://localhost:5000/", {
           headers: { Authorization: `Bearer ${token}` }
         });
-        
+
         if (res.ok) {
           setIsAuthenticated(true);
         } else {
@@ -75,29 +76,38 @@ function App() {
         {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        
+
         {/* Protected routes */}
-        <Route 
-          path="/dashboard" 
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
-          } 
+          }
         />
-        
-        <Route 
-          path="/assessments" 
+
+        <Route
+          path="/assessments"
           element={
             <ProtectedRoute>
               <Assessments />
             </ProtectedRoute>
-          } 
+          }
         />
-        
+
+        <Route
+          path="/study-buddy"
+          element={
+            <ProtectedRoute>
+              <StudyBuddy />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Redirect root to login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
-        
+
         {/* Catch all - 404 page */}
         <Route path="*" element={
           <div style={{ textAlign: "center", marginTop: "100px" }}>

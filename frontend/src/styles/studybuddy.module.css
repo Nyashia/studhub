@@ -1,0 +1,326 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* Two column layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* Cards */
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Add friend section */
+.addFriendForm {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.addFriendInput {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.addFriendInput:focus {
+  outline: none;
+  border-color: var(--color-darkest);
+}
+
+.addFriendBtn {
+  padding: 10px 20px;
+  background: var(--color-darkest);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.addFriendBtn:hover {
+  background: #2a3a5c;
+}
+
+/* Pending requests list */
+.requestList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.requestItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+}
+
+.requestName {
+  font-weight: 500;
+  color: var(--color-darkest);
+}
+
+.requestEmail {
+  font-size: 12px;
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.requestActions {
+  display: flex;
+  gap: 8px;
+}
+
+.acceptBtn {
+  padding: 6px 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.declineBtn {
+  padding: 6px 12px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Friends list */
+.friendsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.friendItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+}
+
+.friendInfo {
+  flex: 1;
+}
+
+.friendName {
+  font-weight: 500;
+  color: var(--color-darkest);
+}
+
+.friendEmail {
+  font-size: 12px;
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.cheerBtn {
+  padding: 6px 12px;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.cheerBtn:hover {
+  background: #d97706;
+}
+
+/* Activity feed */
+.activityFeed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+}
+
+.activityIcon {
+  font-size: 24px;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityMessage {
+  color: var(--color-darkest);
+  font-size: 14px;
+}
+
+.activityTime {
+  font-size: 11px;
+  color: var(--color-text);
+  opacity: 0.5;
+  margin-top: 4px;
+}
+
+/* Empty states */
+.emptyState {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text);
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+/* Success/Error messages */
+.successMessage {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 10px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.errorMessage {
+  background: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.tab {
+  padding: 10px 24px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.tab:hover {
+  color: var(--color-darkest);
+  background: var(--color-primary);
+}
+
+.tabActive {
+  color: var(--color-darkest);
+  border-bottom: 2px solid var(--color-darkest);
+  font-weight: 600;
+}
+
+.tabContent {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section (for pending requests within friends tab) */
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}

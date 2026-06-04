@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
+const http = require('http'); // Required for Socket.IO
+const socketIo = require('socket.io');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
@@ -10,58 +12,77 @@ const registerRoute = require("./routes/register");
 const assessmentRoute = require("./routes/assessment");
 const todoRoutes = require('./routes/todos');
 const scheduleRoutes = require("./routes/schedule");
+const friendRoutes = require('./routes/friend');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const mongoURI = process.env.MONGO_URI;
 
-// CORS config
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.FRONTEND_URL
-].filter(Boolean);
+
+const server = http.createServer(app);
+
+
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+
+io.on('connection', (socket) => {
+  console.log('✅ New client connected:', socket.id);
+
+  socket.on('register-user', (userId) => {
+    socket.userId = userId;
+    console.log(` User ${userId} registered with socket ${socket.id}`);
+  });
+
+  socket.on('nudge', (data) => {
+    console.log(`📨 Nudge from ${socket.userId} to ${data.toUserId}: ${data.message}`);
+    // Broadcast to all other clients (for testing)
+    socket.broadcast.emit('receive-nudge', {
+      fromUserId: socket.userId,
+      message: data.message,
+      timestamp: new Date()
+    });
+  });
+
+  socket.on('disconnect', () => {
+    console.log(' Client disconnected:', socket.id);
+  });
+});
+
 
 app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: "http://localhost:5173",
   credentials: true
 }));
-
-
-// JSON middleware
 app.use(express.json());
 
-// Connect to MongoDB then start server
+
 mongoose.connect(mongoURI)
   .then(() => {
-    console.log('MongoDB connected successfully!');
+    console.log('✅ MongoDB connected');
 
-    // Routes
     app.use("/users", userRoutes);      
     app.use("/login", loginRoute); 
     app.use("/register", registerRoute); 
     app.use("/assessments", assessmentRoute);
     app.use("/todos", todoRoutes);
     app.use("/schedule", scheduleRoutes);
+    app.use('/api/friends', friendRoutes);
 
-    app.get('/', (req, res) => {
-      res.send('Hello StudHub backend!');
-    });
+    app.get('/', (req, res) => res.send('StudHub API Running'));
 
-    // Global error handler
-    app.use((err, req, res, next) => {
-      console.error('Error:', err.stack);
-      res.status(err.status || 500).json({ 
-        message: err.message || 'Something went wrong!' 
-      });
-    });
-
-    app.listen(PORT, () => {
+    
+    server.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);
+      console.log(`✅ Socket.IO ready`);
     });
   })
   .catch(err => {
-    console.error('MongoDB connection error:', err);
+    console.error('DB Connection Error:', err);
     process.exit(1);
   });

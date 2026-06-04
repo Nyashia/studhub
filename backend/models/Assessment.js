@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
+const Activity = require('../models/Activity');
+
 
 const assessmentSchema = new mongoose.Schema({
+
   user: {  
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -41,5 +44,6 @@ const assessmentSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
 
 module.exports = mongoose.model("Assessment", assessmentSchema);

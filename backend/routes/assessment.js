@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Assessment = require("../models/Assessment");
 const protect = require("../middleware/authMiddleware");
+const Activity = require('../models/Activity'); // Add at top
 
 // GET all assessments for logged-in user (sorted by date, closest first)
 router.get("/", protect, async (req, res) => {
@@ -48,12 +49,30 @@ router.post("/", protect, async (req, res) => {
 // UPDATE assessment
 router.put("/:id", protect, async (req, res) => {
   try {
+    // Get the original assessment before update
+    const originalAssessment = await Assessment.findOne({
+      _id: req.params.id,
+      user: req.user.userId
+    });
+
     const assessment = await Assessment.findOneAndUpdate(
       { _id: req.params.id, user: req.user.userId },  
       req.body,
       { new: true, runValidators: true }
     );
+    
     if (!assessment) return res.status(404).json({ message: "Assessment not found" });
+
+  
+    if (req.body.completed === true && originalAssessment.completed === false) {
+      await Activity.create({
+        user: req.user.userId,
+        type: 'completed_assessment',
+        itemName: assessment.name,
+        message: `Completed assessment: ${assessment.name}`
+      });
+    }
+
     res.json(assessment);
   } catch (error) {
     res.status(400).json({ error: error.message });
