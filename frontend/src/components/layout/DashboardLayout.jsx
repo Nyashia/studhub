@@ -1,62 +1,67 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "../../styles/global.css";
-import "../../styles/dashboard.css";
-
+import styles from "../../styles/dashboard.module.css";
 
 const DashboardLayout = ({ children, rightPanel }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const iconStyle = { color: "rgb(18, 63, 95)", marginRight: "0.5em" };
-  
-  // Navigation items configuration
+
   const navItems = [
-    { path: "/dashboard", label: "home", icon: "fa-house" },
-    { path: "/assessments", label: "assessments", icon: "fa-graduation-cap" },
-    { path: "/topics", label: "topics", icon: "fa-list" },
-    { path: "/study", label: "study", icon: "fa-book" },
-    { path: "/accountability", label: "accountability buddy", icon: "fa-children" },
-    { path: "/settings", label: "settings", icon: "fa-gear" }
+    { path: "/dashboard", label: "Dashboard" },
+    { path: "/assessments", label: "Assessments"},
+    { path: "/study-buddy", label: "Study Buddy" },
   ];
 
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
-
   return (
-    <div className="dashboard">
-      {/* LEFT SIDEBAR */}
-      <aside className="sidebar">
-        <h2>StudHub</h2>
-        <ul>
-          {navItems.map((item) => (
-            <li 
-              key={item.path}
-              onClick={() => handleNavigation(item.path)}
-              className={location.pathname === item.path ? "active" : ""}
-              style={{ 
-                cursor: "pointer",
-                backgroundColor: location.pathname === item.path ? "#e8f0fe" : "transparent",
-                padding: "8px",
-                borderRadius: "6px"
-              }}
-            >
-              <i className={`fa-solid ${item.icon}`} style={iconStyle}></i>
-              {item.label}
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <div className={styles.dashboard}>
+      <div className={styles.container}>
+        
+        {/* Sidebar */}
+        <aside className={styles.sidebar}>
+          <div className={styles.logo}>
+            <h2>StudHub</h2>
+            <p>study companion</p>
+          </div>
 
-      {/* MAIN CONTENT + RIGHT PANEL*/}
-      <div className="main-area">
-        <main className="content">
-          {children}
+          <nav className={styles.nav}>
+            {navItems.map((item) => (
+              <button
+                key={item.path}
+                onClick={() => navigate(item.path)}
+                className={`${styles.navItem} ${
+                  location.pathname === item.path ? styles.navItemActive : ""
+                }`}
+              >
+                <span className={styles.navIcon}>{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
+            
+            <button
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/login");
+              }}
+              className={`${styles.navItem} ${styles.logoutBtn}`}
+            >
+              <span>Logout</span>
+            </button>
+          </nav>
+        </aside>
+
+        {/* Main Content */}
+        <main className={styles.mainContent}>
+          <div className={styles.contentCard}>
+            {children}
+          </div>
         </main>
+
+        {/* Right Panel */}
         {rightPanel && (
-          <aside className="right-panel">
-            {rightPanel}
+          <aside className={styles.rightPanel}>
+            <div className={styles.rightPanelSticky}>
+              {rightPanel}
+            </div>
           </aside>
         )}
       </div>

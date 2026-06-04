@@ -25,7 +25,6 @@ function DashboardContent() {
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h1>Dashboard</h1>
-          <button onClick={handleLogout}>Logout</button>
         </div>
 
         <Greeting userName="Nyashia" />

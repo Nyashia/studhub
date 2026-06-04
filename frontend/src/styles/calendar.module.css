@@ -1,0 +1,313 @@
+/* calendar.module.css */
+.calendarContainer {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--color-border);
+}
+
+.calendarTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 20px;
+}
+
+/* React Calendar Overrides */
+.calendarContainer :global(.react-calendar) {
+  width: 100%;
+  border: none;
+  font-family: var(--font-main);
+  background: transparent;
+}
+
+.calendarContainer :global(.react-calendar__navigation) {
+  margin-bottom: 20px;
+}
+
+.calendarContainer :global(.react-calendar__navigation button) {
+  color: var(--color-darkest);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+}
+
+.calendarContainer :global(.react-calendar__navigation button:hover) {
+  background: var(--color-primary);
+}
+
+.calendarContainer :global(.react-calendar__month-view__weekdays) {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.calendarContainer :global(.react-calendar__month-view__weekdays__weekday) {
+  padding: 12px 0;
+}
+
+.calendarContainer :global(.react-calendar__tile) {
+  padding: 12px 6px;
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.calendarContainer :global(.react-calendar__tile:hover) {
+  background: var(--color-primary);
+}
+
+.calendarContainer :global(.react-calendar__tile--active) {
+  background: var(--color-darkest) !important;
+  color: white !important;
+}
+
+.calendarContainer :global(.react-calendar__tile--now) {
+  background: var(--color-primary);
+  color: var(--color-darkest);
+}
+
+.calendarContainer :global(.event-day) {
+  background: var(--color-primary-hover);
+  font-weight: 600;
+}
+
+/* Selected Date Section */
+.selectedDateSection {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+}
+
+.selectedDateTitle {
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eventItem {
+  padding: 10px 12px;
+  background: var(--color-card);
+  border-radius: var(--radius);
+  font-size: 14px;
+  border-left: 3px solid var(--color-darkest);
+}
+
+.eventEmpty {
+  color: var(--color-text);
+  opacity: 0.5;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Schedule View */
+.scheduleContainer {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--color-border);
+}
+
+.scheduleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.scheduleTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-darkest);
+}
+
+.addClassBtn {
+  padding: 8px 16px;
+  background: var(--color-darkest);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addClassBtn:hover {
+  background: #2a3a5c;
+}
+
+/* Schedule Table */
+.scheduleTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.scheduleTable th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-darkest);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.scheduleTable td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.classBlock {
+  background: var(--color-primary);
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  position: relative;
+  margin: -4px 0;
+}
+
+.classSubject {
+  font-weight: 600;
+  color: var(--color-darkest);
+  font-size: 13px;
+}
+
+.classLocation {
+  font-size: 11px;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+.deleteClassBtn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  opacity: 0.5;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.deleteClassBtn:hover {
+  opacity: 1;
+  color: #dc2626;
+}
+
+.emptyCell {
+  height: 50px;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 450px;
+  max-width: 90%;
+  border: 1px solid var(--color-border);
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 20px;
+}
+
+.modalFormGroup {
+  margin-bottom: 16px;
+}
+
+.modalLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: 13px;
+}
+
+.modalInput,
+.modalSelect {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.modalInput:focus,
+.modalSelect:focus {
+  outline: none;
+  border-color: var(--color-darkest);
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.modalCancelBtn {
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.modalCancelBtn:hover {
+  background: var(--color-primary);
+}
+
+.modalSaveBtn {
+  padding: 8px 16px;
+  background: var(--color-darkest);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.modalSaveBtn:hover {
+  background: #2a3a5c;
+}
+
+/* Loading State */
+.loadingState {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text);
+  opacity: 0.6;
+}
