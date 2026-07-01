@@ -13,6 +13,7 @@ const assessmentRoute = require("./routes/assessment");
 const todoRoutes = require('./routes/todos');
 const scheduleRoutes = require("./routes/schedule");
 const friendRoutes = require('./routes/friend');
+const studyRoutes = require('./routes/study'); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -73,6 +74,7 @@ mongoose.connect(mongoURI)
     app.use("/todos", todoRoutes);
     app.use("/schedule", scheduleRoutes);
     app.use('/api/friends', friendRoutes);
+    app.use('/api/study', studyRoutes);
 
     app.get('/', (req, res) => res.send('StudHub API Running'));
 

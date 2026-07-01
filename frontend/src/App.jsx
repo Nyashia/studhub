@@ -5,6 +5,8 @@ import Assessments from "./pages/Assessments";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import StudyBuddy from "./pages/StudyBuddy";
+import StudySpace from "./pages/StudySpace";  
+import FullTimer from './components/timer/FullTimer';
 
 // Loading component while checking auth
 const LoadingScreen = () => (
@@ -104,6 +106,21 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/study-space"  
+          element={
+            <ProtectedRoute>
+              <StudySpace />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="/timer" element={
+          <ProtectedRoute>
+            <FullTimer />
+          </ProtectedRoute>
+        } />
 
         {/* Redirect root to login */}
         <Route path="/" element={<Navigate to="/login" replace />} />

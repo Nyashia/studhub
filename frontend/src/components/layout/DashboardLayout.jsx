@@ -10,6 +10,7 @@ const DashboardLayout = ({ children, rightPanel }) => {
     { path: "/dashboard", label: "Dashboard" },
     { path: "/assessments", label: "Assessments"},
     { path: "/study-buddy", label: "Study Buddy" },
+    { path: "/study-space", label: "Study Space" },
   ];
 
   return (

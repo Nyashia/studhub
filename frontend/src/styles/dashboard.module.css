@@ -1,4 +1,3 @@
-/* dashboard.module.css - works with your global.css */
 .dashboard {
   min-height: 100vh;
   background-color: var(--color-bg);
@@ -293,4 +292,173 @@
 
 .toggleBtn:hover:not(.toggleBtnActive) {
   background: var(--color-primary);
+}
+
+/* Right Panel - One Connected Card */
+.rightPanelCard {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.rightPanelTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Divider between sections */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 16px 0;
+}
+
+/* Due Today Items */
+.dueTodayItem {
+  padding: 10px 12px;
+  background: #fee2e2;
+  border-radius: var(--radius);
+  border-left: 3px solid #dc2626;
+  margin-bottom: 8px;
+}
+
+.dueTodayName {
+  font-weight: 500;
+  color: #991b1b;
+  font-size: 13px;
+}
+
+.dueTodaySubject {
+  font-size: 11px;
+  color: #7f1d1d;
+  margin-top: 2px;
+}
+
+.dueTodayBadge {
+  font-size: 10px;
+  color: #dc2626;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Upcoming Items */
+.upcomingItem {
+  padding: 10px 12px;
+  background: #fef3c7;
+  border-radius: var(--radius);
+  border-left: 3px solid #f59e0b;
+  margin-bottom: 8px;
+}
+
+.upcomingName {
+  font-weight: 500;
+  color: #92400e;
+  font-size: 13px;
+}
+
+.upcomingSubject {
+  font-size: 11px;
+  color: #b45309;
+  margin-top: 2px;
+}
+
+.upcomingDate {
+  font-size: 10px;
+  color: #d97706;
+  margin-top: 4px;
+}
+
+/* Todo Section */
+.todoTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-darkest);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.todoInput {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.todoInputField {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  background: var(--color-bg);
+}
+
+.todoAddBtn {
+  padding: 8px 16px;
+  background: var(--color-darkest);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.todoList {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.todoItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+}
+
+.todoCheckbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.todoText {
+  flex: 1;
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+.todoTextCompleted {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.todoDelete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #999;
+}
+
+.todoDelete:hover {
+  color: #dc2626;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 16px;
+  color: var(--color-text);
+  opacity: 0.5;
+  font-size: 12px;
 }

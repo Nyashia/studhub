@@ -9,9 +9,10 @@ import { ScheduleProvider } from "../context/ScheduleContext";
 import MonthlyCalendar from "../components/Calendar/MonthlyCalendar";
 import WeeklySchedule from "../components/Calendar/WeeklySchedule";
 import ViewToggle from "../components/Calendar/ViewToggle";
+import MiniTimer from '../components/timer/MiniTimer';
 
 function DashboardContent() {
-  const [activeView, setActiveView] = useState("calendar");  
+  const [activeView, setActiveView] = useState("calendar");
   const navigate = useNavigate();
   const { assessments } = useAssessments();
 
@@ -31,10 +32,24 @@ function DashboardContent() {
 
         <ViewToggle activeView={activeView} setActiveView={setActiveView} />
 
-        {activeView === "calendar" ? (
-          <MonthlyCalendar tasks={[]} assessments={assessments} />
-        ) : (
-          <WeeklySchedule />
+        {/* Calendar View - Full width calendar, timer underneath */}
+        {activeView === "calendar" && (
+          <div style={{ marginTop: "20px" }}>
+            {/* Calendar full width */}
+            <MonthlyCalendar assessments={assessments} />
+            
+            {/* Timer underneath calendar */}
+            <div style={{ marginTop: "24px" }}>
+              <MiniTimer />
+            </div>
+          </div>
+        )}
+
+        {/* Schedule View - Full width */}
+        {activeView === "schedule" && (
+          <div style={{ marginTop: "20px" }}>
+            <WeeklySchedule />
+          </div>
         )}
       </div>
     </DashboardLayout>
