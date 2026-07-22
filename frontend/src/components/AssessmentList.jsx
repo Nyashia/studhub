@@ -18,12 +18,12 @@ const AssessmentList = () => {
 
   const getTypeIcon = (type) => {
     const icons = {
-      exam: "📝",
-      assignment: "📄",
-      test: "✏️",
-      lab: "🔬"
+      exam: "",
+      assignment: "",
+      test: "",
+      lab: ""
     };
-    return icons[type] || "📚";
+    return icons[type] ;
   };
 
   const filteredAssessments = assessments.filter(assessment => {

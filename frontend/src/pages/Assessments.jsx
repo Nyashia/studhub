@@ -3,16 +3,17 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import { AssessmentProvider } from "../context/AssessmentContext";
 import AssessmentForm from "../components/AssessmentForm";
 import AssessmentList from "../components/AssessmentList";
+import styles from "../styles/assessments.module.css";
 
 function AssessmentsContent() {
   return (
     <DashboardLayout>
-      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h1>📚 Assessments</h1>
-        <p style={{ color: "#666", marginBottom: "20px" }}>
-          Track your exams, assignments, tests, and labs
-        </p>
-        
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1>Assessments</h1>
+          <p>Track your exams, assignments, tests, and labs</p>
+        </div>
+
         <AssessmentForm />
         <AssessmentList />
       </div>

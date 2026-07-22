@@ -1,0 +1,271 @@
+.studyRoom {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.overlay {
+    min-height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.topic {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.participants {
+    font-size: 16px;
+    opacity: 0.8;
+    margin: 8px 0 0 0;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.headerActions {
+    display: flex;
+    gap: 12px;
+}
+
+.leaveBtn {
+    padding: 8px 20px;
+    background: #666;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.leaveBtn:hover {
+    background: #888;
+}
+
+.endBtn {
+    padding: 8px 20px;
+    background: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.endBtn:hover {
+    background: #b91c1c;
+}
+
+/* Timer */
+.timerSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 16px 6px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.timerDisplay {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: monospace;
+    color: white;
+}
+
+.timerControls {
+    display: flex;
+    gap: 6px;
+}
+
+.timerBtn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.timerBtn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Content */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 20px;
+}
+
+/* Task Section - Bottom Right */
+.taskSection {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 20px;
+    width: 360px;
+    max-height: 420px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+}
+
+.taskTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0 0 12px 0;
+}
+
+.taskForm {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.taskInput {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.taskInput:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.addTaskBtn {
+    padding: 8px 16px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.addTaskBtn:hover {
+    background: #43a047;
+}
+
+.taskList {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 260px;
+}
+
+.taskItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.taskItem:hover {
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.taskCheckbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.taskCompleted {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.deleteTaskBtn {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: auto;
+}
+
+.deleteTaskBtn:hover {
+    color: #dc2626;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    font-size: 13px;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 18px;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .overlay {
+        padding: 16px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .headerRight {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .timerSection {
+        padding: 4px 12px 4px 16px;
+    }
+
+    .timerDisplay {
+        font-size: 16px;
+    }
+
+    .taskSection {
+        width: 100%;
+        max-height: 300px;
+    }
+
+    .topic {
+        font-size: 22px;
+    }
+
+    .content {
+        padding-bottom: 10px;
+    }
+}

@@ -1,20 +1,82 @@
+/* ========== FONTS ========== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
 :root {
-  /* Colors */
-  --color-bg: #E8ECEF;
-  --color-primary: #C4D8E5;
-  --color-primary-hover: #A7C7E7;
-  --color-text: #1f2937;
+  /* ===== Colors ===== */
+  /* Backgrounds */
+  --color-bg: #faf8f5;
   --color-card: #ffffff;
-  --color-border: #8EB1D1 ;
-  --color-darkest: #1C2B48;
 
-  /* Fonts */
-  --font-main: 'Roboto', sans-serif;
+  /* Text */
+  --color-text: #1e1a16;
+  --color-text-secondary: #6b6560;
+  --color-text-muted: #a39e99;
 
-  /* Spacing */
-  --radius: 10px;
+  /* Primary Brand */
+  --color-primary: #e07a5f;
+  --color-primary-hover: #c55a3e;
+  --color-primary-light: #fdf0ea;
+
+  /* Accents */
+  --color-accent: #5b7f8a;
+  --color-success: #7c9a7a;
+  --color-warning: #d4a373;
+  --color-danger: #d17a6e;
+
+  /* Highlight */
+  --color-highlight: #fef3c7;
+  --color-highlight-border: #f59e0b;
+  --color-highlight-text: #92400e;
+
+  /* Borders */
+  --color-border: #e5dfda;
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 3px rgba(30, 26, 22, 0.06);
+  --shadow-md: 0 4px 12px rgba(30, 26, 22, 0.08);
+  --shadow-lg: 0 8px 30px rgba(30, 26, 22, 0.12);
+
+  /* ===== Typography ===== */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Font sizes */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 28px;
+  --text-3xl: 32px;
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* ===== Spacing ===== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* ===== Radius ===== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 }
 
+/* ===== RESET & BASE ===== */
 * {
   margin: 0;
   padding: 0;
@@ -22,7 +84,101 @@
 }
 
 body {
+  font-family: var(--font-family);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
   background-color: var(--color-bg);
-  font-family: var(--font-main);
   color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== HEADINGS ===== */
+h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+h4 {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+}
+
+/* ===== PARAGRAPHS ===== */
+p {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+small {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ===== LABELS & BUTTONS ===== */
+label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text);
+}
+
+button {
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+/* ===== INPUTS ===== */
+input,
+textarea,
+select {
+  font-family: var(--font-family);
+  font-size: var(--text-base);
+}
+
+/* ===== UTILITY ===== */
+.highlight {
+  background-color: var(--color-highlight);
+  border-left: 3px solid var(--color-highlight-border);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
 }
