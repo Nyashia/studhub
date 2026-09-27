@@ -1,8 +1,8 @@
-# studhub
+# StudHub
 
 StudHub is a collaborative study platform designed to help students stay focused, organize their study sessions, and connect with other students in real time.
 
-The project was built as a full-stack web application, with a React frontend, Node.js/Express backend, MongoDB database, and Socket.IO for real-time communication.
+The project was built as a full-stack web application using a React frontend, Node.js/Express backend, MongoDB database, and Socket.IO for real-time communication.
 
 ## Features
 
@@ -22,7 +22,7 @@ The project was built as a full-stack web application, with a React frontend, No
 
 * Create and join collaborative study spaces
 * Study alongside other users
-* Real-time interaction between users in a shared space
+* Real-time interaction between users in study spaces
 
 ### Shared Study Timer
 
@@ -33,30 +33,30 @@ The project was built as a full-stack web application, with a React frontend, No
 ### Real-Time Functionality
 
 * Real-time communication and updates using Socket.IO
-* Server-client events for collaborative features
+* Backend-to-frontend events for collaborative features
 * Shared state between users in study spaces
 
 ## Tech Stack
 
-**Frontend**
+### Frontend
 
 * React
 * Vite
 * JavaScript
 * CSS
 
-**Backend**
+### Backend
 
 * Node.js
 * Express.js
 * Socket.IO
 
-**Database**
+### Database
 
 * MongoDB
 * MongoDB Atlas
 
-**Development Tools**
+### Development Tools
 
 * Git
 * GitHub
@@ -68,22 +68,22 @@ StudHub follows a client-server architecture:
 
 ```text
 ┌─────────────────────┐
-│   React + Vite      │
-│     Frontend        │
+│     React + Vite    │
+│      Frontend       │
 └──────────┬──────────┘
            │
            │ HTTP / Socket.IO
            ▼
 ┌─────────────────────┐
-│  Node.js + Express  │
-│      Backend        │
+│   Node.js + Express │
+│       Backend       │
 └──────────┬──────────┘
            │
            │ MongoDB Driver
            ▼
 ┌─────────────────────┐
-│   MongoDB Atlas     │
-│      Database       │
+│     MongoDB Atlas   │
+│       Database      │
 └─────────────────────┘
 ```
 
@@ -103,7 +103,7 @@ Before running StudHub locally, make sure you have:
 ### Clone the Repository
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
+git clone https://github.com/Nyashia/studhub.git
 cd studhub
 ```
 
@@ -112,14 +112,14 @@ cd studhub
 Install the frontend dependencies:
 
 ```bash
-cd client
+cd frontend
 npm install
 ```
 
 Then install the backend dependencies:
 
 ```bash
-cd ../server
+cd ../backend
 npm install
 ```
 
@@ -127,7 +127,7 @@ npm install
 
 The backend requires environment variables for configuration.
 
-Create a `.env` file in the backend directory and add the required values.
+Create a `.env` file in the `backend` directory and add the required values.
 
 Example:
 
@@ -145,14 +145,14 @@ Additional environment variables may be required depending on the application's 
 Start the backend:
 
 ```bash
-cd server
+cd backend
 npm start
 ```
 
 Start the frontend in a separate terminal:
 
 ```bash
-cd client
+cd frontend
 npm run dev
 ```
 
@@ -163,19 +163,20 @@ The application can then be accessed through the local development URL provided 
 ```text
 studhub/
 │
-├── client/
+├── frontend/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
 │   │   └── ...
 │   └── package.json
 │
-├── server/
+├── backend/
 │   ├── ...
 │   └── package.json
 │
 ├── .gitignore
-└── README.md
+├── README.md
+└── package.json
 ```
 
 ## Future Improvements
@@ -203,7 +204,7 @@ Building StudHub provided experience with:
 * Connecting a frontend to a backend
 * MongoDB database integration
 * Real-time communication with Socket.IO
-* Managing application state across client and server
+* Managing application state across the frontend and backend
 * User authentication
 * Debugging and integrating multiple technologies into a single application
 * Using Git and GitHub for version control
