@@ -384,10 +384,6 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard {
-    flex-direction: column;
-  }
-
   .sidebar {
     width: 100%;
     height: auto;
