@@ -15,14 +15,12 @@ function RightPanel() {
     }
   };
 
-  // Get today's date
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   
   const nextWeek = new Date(today);
   nextWeek.setDate(nextWeek.getDate() + 7);
 
-  // Filter assessments due today
   const dueToday = assessments.filter(assessment => {
     if (!assessment.date || assessment.completed) return false;
     const dueDate = new Date(assessment.date);
@@ -30,7 +28,6 @@ function RightPanel() {
     return dueDate.getTime() === today.getTime();
   });
 
-  // Filter upcoming assessments
   const upcomingThisWeek = assessments.filter(assessment => {
     if (!assessment.date || assessment.completed) return false;
     const dueDate = new Date(assessment.date);
@@ -56,19 +53,18 @@ function RightPanel() {
           <span></span> Due Today
         </h4>
         {dueToday.length === 0 ? (
-          <p className={styles.emptyState}>No assessments due today! 🎉</p>
+          <p className={styles.emptyState}> No assessments due today!</p>
         ) : (
           dueToday.map(assessment => (
             <div key={assessment._id} className={styles.dueTodayItem}>
               <div className={styles.dueTodayName}>{assessment.name}</div>
               <div className={styles.dueTodaySubject}>{assessment.subject}</div>
-              <div className={styles.dueTodayBadge}>⚠️ Due today!</div>
+              <div className={styles.dueTodayBadge}>Due today</div>
             </div>
           ))
         )}
       </div>
 
-      {/* Divider */}
       <div className={styles.divider}></div>
 
       {/* Upcoming Section */}
@@ -89,7 +85,6 @@ function RightPanel() {
         )}
       </div>
 
-      {/* Divider */}
       <div className={styles.divider}></div>
 
       {/* Quick To-Do Section */}
@@ -104,16 +99,16 @@ function RightPanel() {
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
-            placeholder="Add a task..."
+            placeholder="Add a quick task..."
             className={styles.todoInputField}
           />
           <button onClick={handleAddTodo} className={styles.todoAddBtn}>
-            Add
+            +
           </button>
         </div>
 
         {todos.length === 0 ? (
-          <p className={styles.emptyState}>No tasks. Add one above!</p>
+          <p className={styles.emptyState}> No tasks yet. Add one above!</p>
         ) : (
           <div className={styles.todoList}>
             {todos.map(todo => (

@@ -1,3 +1,7 @@
+/* =========================
+   CONTAINER & HEADER
+   ========================= */
+
 .container {
   max-width: 900px;
   margin: 0 auto;
@@ -18,7 +22,11 @@
   margin-bottom: 24px;
 }
 
-/* Stats Cards */
+
+/* =========================
+   STATS CARDS
+   ========================= */
+
 .statsGrid {
   display: flex;
   gap: 16px;
@@ -52,7 +60,11 @@
   color: #f59e0b;
 }
 
-/* Add Topic Button */
+
+/* =========================
+   ADD TOPIC BUTTON
+   ========================= */
+
 .addBtn {
   padding: 10px 20px;
   background: var(--color-darkest, #1a1a2e);
@@ -67,7 +79,11 @@
   opacity: 0.9;
 }
 
-/* Add Topic Form */
+
+/* =========================
+   ADD TOPIC FORM
+   ========================= */
+
 .form {
   background: var(--color-card, white);
   padding: 20px;
@@ -116,7 +132,11 @@
   background: #45a049;
 }
 
-/* Section Headers */
+
+/* =========================
+   SECTION HEADERS
+   ========================= */
+
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
@@ -124,7 +144,11 @@
   margin-bottom: 16px;
 }
 
-/* Due Topics */
+
+/* =========================
+   DUE TOPICS
+   ========================= */
+
 .dueList {
   display: flex;
   flex-direction: column;
@@ -192,7 +216,11 @@
   background: #fecaca;
 }
 
-/* Filter Buttons */
+
+/* =========================
+   FILTER BUTTONS
+   ========================= */
+
 .filterGroup {
   display: flex;
   gap: 8px;
@@ -217,7 +245,11 @@
   background: #f0f0f0;
 }
 
-/* All Topics List */
+
+/* =========================
+   ALL TOPICS LIST
+   ========================= */
+
 .topicList {
   display: flex;
   flex-direction: column;
@@ -267,7 +299,11 @@
   color: #dc2626;
 }
 
-/* Empty State */
+
+/* =========================
+   EMPTY STATE
+   ========================= */
+
 .emptyState {
   color: var(--color-text-secondary, #666);
   padding: 20px;
@@ -275,14 +311,22 @@
   border-radius: var(--radius, 8px);
 }
 
-/* Loading */
+
+/* =========================
+   LOADING
+   ========================= */
+
 .loading {
   text-align: center;
   padding: 40px;
   color: var(--color-text-secondary, #666);
 }
 
-/* Responsive */
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
 @media (max-width: 768px) {
   .statsGrid {
     flex-direction: column;

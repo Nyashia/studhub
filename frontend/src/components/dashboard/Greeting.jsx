@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import styles from "../../styles/dashboard.module.css";
+import styles from '../../styles/dashboard.module.css';
 
 const Greeting = ({ userName }) => {
   const greetingTemplates = [
     "Hey {name}",
-    "Time to lock in {name}",
+    "lock in, {name}",
     "Let's crush it today {name}",
     "Welcome back {name}",
-    "Another day, another grind {name}",
     "Rise and shine {name}",
     "What's cooking {name}",
-    "Stay focused {name}",
-    "Let's get these wins {name}",
-    "{name}, you got this"
+    "{name}, you got this",
+    "Look who's back",
+    "What's the move {name}",
+    "Let's get into it {name}",
+    "Alright alright alright {name}",
+    "You've got this (I think) {name}"
+    
   ];
 
   const getRandomGreeting = () => {
@@ -27,7 +30,6 @@ const Greeting = ({ userName }) => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h1 className={styles.greetingTitle}>{greeting}</h1>
-          <p className={styles.greetingSubtitle}>Here's what's happening with your studies today.</p>
         </div>
       </div>
     </div>

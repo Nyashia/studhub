@@ -1,185 +1,224 @@
 import React, { useState } from "react";
 import { useAssessments } from "../context/AssessmentContext";
+import styles from "../styles/assessments.module.css";
 
 const AssessmentList = () => {
-  const { assessments, loading, deleteAssessment, startEdit } = useAssessments();
+  const {
+    assessments,
+    loading,
+    deleteAssessment,
+    startEdit,
+    completeAssessment
+  } = useAssessments();
+
   const [filter, setFilter] = useState("all");
 
+  // ==================== HELPERS ====================
+
+  // Determine the priority color based on how soon
+  // the assessment is due.
   const getPriorityColor = (date, completed) => {
-    if (completed) return "#ccc";
+    if (completed) {
+      return "#ccc";
+    }
+
     const today = new Date();
     const dueDate = new Date(date);
-    const daysUntil = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
-    
-    if (daysUntil < 0) return "#ff4444";
-    if (daysUntil <= 3) return "#ffa500";
+
+    const daysUntil = Math.ceil(
+      (dueDate - today) / (1000 * 60 * 60 * 24)
+    );
+
+    if (daysUntil < 0) {
+      return "#ff4444";
+    }
+
+    if (daysUntil <= 3) {
+      return "#ffa500";
+    }
+
     return "#4CAF50";
   };
 
-  const getTypeIcon = (type) => {
-    const icons = {
-      exam: "",
-      assignment: "",
-      test: "",
-      lab: ""
-    };
-    return icons[type] ;
+
+  // ==================== ACTIONS ====================
+
+  // Mark an assessment as completed.
+  const handleComplete = async (assessment) => {
+    const confirmed = window.confirm(
+      `Mark "${assessment.name}" as completed?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    await completeAssessment(assessment._id);
   };
 
-  const filteredAssessments = assessments.filter(assessment => {
+  // ==================== FILTERING ====================
+
+  const filteredAssessments = assessments.filter((assessment) => {
     if (filter === "upcoming") {
-      return !assessment.completed && new Date(assessment.date) >= new Date();
+      return (
+        !assessment.completed &&
+        new Date(assessment.date) >= new Date()
+      );
     }
-    if (filter === "completed") return assessment.completed;
+
+    if (filter === "completed") {
+      return assessment.completed;
+    }
+
     return true;
   });
 
-  const sortedAssessments = [...filteredAssessments].sort((a, b) => 
-    new Date(a.date) - new Date(b.date)
+  // Sort assessments by due date.
+  const sortedAssessments = [...filteredAssessments].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
   );
 
+  // ==================== LOADING ====================
+
   if (loading) {
-    return <p>Loading assessments...</p>;
+    return (
+      <div className={styles.empty}>
+        Loading assessments...
+      </div>
+    );
   }
+
+  // ==================== RENDER ====================
 
   return (
     <div>
-      <div style={{
-        display: "flex",
-        gap: "10px",
-        marginBottom: "20px",
-        padding: "10px",
-        background: "#f5f5f5",
-        borderRadius: "8px"
-      }}>
+
+      {/* ==================== FILTERS ==================== */}
+
+      <div className={styles.filters}>
         <button
           onClick={() => setFilter("all")}
-          style={{
-            padding: "6px 12px",
-            background: filter === "all" ? "#2196F3" : "#ddd",
-            color: filter === "all" ? "white" : "#333",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
+          className={filter === "all" ? styles.active : ""}
         >
           All
         </button>
+
         <button
           onClick={() => setFilter("upcoming")}
-          style={{
-            padding: "6px 12px",
-            background: filter === "upcoming" ? "#2196F3" : "#ddd",
-            color: filter === "upcoming" ? "white" : "#333",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
+          className={filter === "upcoming" ? styles.active : ""}
         >
           Upcoming
         </button>
+
         <button
           onClick={() => setFilter("completed")}
-          style={{
-            padding: "6px 12px",
-            background: filter === "completed" ? "#2196F3" : "#ddd",
-            color: filter === "completed" ? "white" : "#333",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
+          className={filter === "completed" ? styles.active : ""}
         >
           Completed
         </button>
       </div>
 
+      {/* ==================== EMPTY STATE ==================== */}
+
       {sortedAssessments.length === 0 ? (
-        <p style={{ textAlign: "center", color: "#666", padding: "40px" }}>
+        <div className={styles.empty}>
           No assessments found. Add one above!
-        </p>
+        </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+
+        /* ==================== ASSESSMENT LIST ==================== */
+
+        <div className={styles.list}>
           {sortedAssessments.map((assessment) => {
             const dueDate = new Date(assessment.date);
             const today = new Date();
-            const isOverdue = !assessment.completed && dueDate < today;
-            
+
+            const isOverdue =
+              !assessment.completed &&
+              dueDate < today;
+
             return (
               <div
                 key={assessment._id}
+                className={styles.card}
                 style={{
-                  padding: "15px",
-                  background: assessment.completed ? "#f5f5f5" : "white",
-                  borderRadius: "8px",
-                  borderLeft: `4px solid ${getPriorityColor(assessment.date, assessment.completed)}`,
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+                  borderLeft: `4px solid ${getPriorityColor(
+                    assessment.date,
+                    assessment.completed
+                  )}`,
                   opacity: assessment.completed ? 0.7 : 1
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
-                  <div style={{ flex: 1 }}>
-                    <h4 style={{ margin: "0 0 8px 0" }}>
-                      {getTypeIcon(assessment.type)} {assessment.name}
-                      {assessment.completed && " ✓"}
-                    </h4>
-                    
-                    <p style={{ margin: "4px 0", color: "#666", fontSize: "14px" }}>
-                      {assessment.subject}
-                    </p>
-                    
-                    <p style={{ margin: "4px 0", fontSize: "14px" }}>
-                      Due: {dueDate.toLocaleDateString()}
-                      {isOverdue && (
-                        <span style={{ color: "#ff4444", marginLeft: "10px" }}>
-                           Overdue!
-                        </span>
-                      )}
-                    </p>
-                    
-                    {assessment.notes && (
-                      <p style={{ margin: "8px 0 0 0", fontSize: "13px", color: "#888" }}>
-                        {assessment.notes}
-                      </p>
+
+                {/* ==================== INFORMATION ==================== */}
+
+                <div className={styles.info}>
+                  <h4>
+                    {getTypeIcon(assessment.type)}{" "}
+                    {assessment.name}
+
+                    {assessment.completed && " ✓"}
+                  </h4>
+
+                  <div className={styles.subject}>
+                    {assessment.subject}
+                  </div>
+
+                  <div className={styles.meta}>
+                    Due: {dueDate.toLocaleDateString()}
+
+                    {isOverdue && (
+                      <span className={styles.overdue}>
+                        {" "}Overdue!
+                      </span>
                     )}
                   </div>
-                  
-                  <div style={{ display: "flex", gap: "8px", marginLeft: "15px" }}>
-                    {!assessment.completed && (
-                      <button
-                        onClick={() => startEdit(assessment)}
-                        style={{
-                          padding: "6px 12px",
-                          background: "#2196F3",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "4px",
-                          cursor: "pointer",
-                          fontSize: "12px"
-                        }}
-                      >
-                        Edit
-                      </button>
-                    )}
-                    
+
+                  {assessment.notes && (
+                    <div className={styles.meta}>
+                      {assessment.notes}
+                    </div>
+                  )}
+                </div>
+
+                {/* ==================== ACTIONS ==================== */}
+
+                <div className={styles.actions}>
+
+                  {/* Edit */}
+                  <button
+                    className={styles.edit}
+                    onClick={() => startEdit(assessment)}
+                  >
+                    Edit
+                  </button>
+
+                  {/* Complete */}
+                  {!assessment.completed && (
                     <button
-                      onClick={() => {
-                        if (window.confirm(`Delete "${assessment.name}"?`)) {
-                          deleteAssessment(assessment._id);
-                        }
-                      }}
-                      style={{
-                        padding: "6px 12px",
-                        background: "#ff4444",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "12px"
-                      }}
+                      className={styles.complete}
+                      onClick={() => handleComplete(assessment)}
                     >
-                      Delete
+                      ✓ Complete
                     </button>
-                  </div>
+                  )}
+
+                  {/* Delete */}
+                  <button
+                    className={styles.delete}
+                    onClick={() => {
+                      const confirmed = window.confirm(
+                        `Delete "${assessment.name}"?`
+                      );
+
+                      if (confirmed) {
+                        deleteAssessment(assessment._id);
+                      }
+                    }}
+                  >
+                    Delete
+                  </button>
+
                 </div>
               </div>
             );

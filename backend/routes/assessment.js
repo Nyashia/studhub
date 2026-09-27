@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Assessment = require("../models/Assessment");
 const protect = require("../middleware/authMiddleware");
-const Activity = require('../models/Activity'); // Add at top
+const Activity = require('../models/Activity'); 
 
-// GET all assessments for logged-in user (sorted by date, closest first)
+// GET all assessments for logged-in user 
 router.get("/", protect, async (req, res) => {
   try {
     const assessments = await Assessment.find({ user: req.user.userId }).sort({ date: 1 });

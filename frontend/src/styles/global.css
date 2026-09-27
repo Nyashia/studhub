@@ -1,8 +1,20 @@
-/* ========== FONTS ========== */
+/* =========================
+   FONTS
+   ========================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
 
+
+/* =========================
+   GLOBAL VARIABLES
+   ========================= */
+
 :root {
-  /* ===== Colors ===== */
+
+  /* =========================
+     COLORS
+     ========================= */
+
   /* Backgrounds */
   --color-bg: #faf8f5;
   --color-card: #ffffff;
@@ -31,12 +43,20 @@
   /* Borders */
   --color-border: #e5dfda;
 
-  /* ===== Shadows ===== */
+
+  /* =========================
+     SHADOWS
+     ========================= */
+
   --shadow-sm: 0 1px 3px rgba(30, 26, 22, 0.06);
   --shadow-md: 0 4px 12px rgba(30, 26, 22, 0.08);
   --shadow-lg: 0 8px 30px rgba(30, 26, 22, 0.12);
 
-  /* ===== Typography ===== */
+
+  /* =========================
+     TYPOGRAPHY
+     ========================= */
+
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Font sizes */
@@ -59,7 +79,11 @@
   --leading-normal: 1.5;
   --leading-relaxed: 1.75;
 
-  /* ===== Spacing ===== */
+
+  /* =========================
+     SPACING
+     ========================= */
+
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -69,14 +93,22 @@
   --space-8: 32px;
   --space-10: 40px;
 
-  /* ===== Radius ===== */
+
+  /* =========================
+     RADIUS
+     ========================= */
+
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
 }
 
-/* ===== RESET & BASE ===== */
+
+/* =========================
+   RESET & BASE
+   ========================= */
+
 * {
   margin: 0;
   padding: 0;
@@ -94,7 +126,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== HEADINGS ===== */
+
+/* =========================
+   HEADINGS
+   ========================= */
+
 h1 {
   font-size: var(--text-3xl);
   font-weight: var(--font-bold);
@@ -123,7 +159,11 @@ h4 {
   color: var(--color-text);
 }
 
-/* ===== PARAGRAPHS ===== */
+
+/* =========================
+   PARAGRAPHS
+   ========================= */
+
 p {
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
@@ -135,7 +175,11 @@ small {
   color: var(--color-text-secondary);
 }
 
-/* ===== LABELS & BUTTONS ===== */
+
+/* =========================
+   LABELS & BUTTONS
+   ========================= */
+
 label {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -148,7 +192,11 @@ button {
   font-weight: var(--font-medium);
 }
 
-/* ===== INPUTS ===== */
+
+/* =========================
+   INPUTS
+   ========================= */
+
 input,
 textarea,
 select {
@@ -156,7 +204,11 @@ select {
   font-size: var(--text-base);
 }
 
-/* ===== UTILITY ===== */
+
+/* =========================
+   UTILITY
+   ========================= */
+
 .highlight {
   background-color: var(--color-highlight);
   border-left: 3px solid var(--color-highlight-border);
@@ -164,7 +216,11 @@ select {
   border-radius: var(--radius-md);
 }
 
-/* ===== SCROLLBAR ===== */
+
+/* =========================
+   SCROLLBAR
+   ========================= */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

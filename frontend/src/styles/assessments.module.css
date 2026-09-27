@@ -1,16 +1,16 @@
-/* ===== CONTAINER ===== */
+/* ========== CONTAINER & HEADER ========== */
+
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .header {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .header h1 {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 600;
   color: #1e1a16;
   margin-bottom: 4px;
 }
@@ -20,19 +20,21 @@
   font-size: 14px;
 }
 
-/* ===== STATS ===== */
+
+/* ========== STATS ========== */
+
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .statCard {
-  background: white;
+  background: #ffffff;
   padding: 16px 20px;
-  border-radius: 10px;
-  border: 1px solid #e5e0da;
+  border-radius: 12px;
+  border: 1px solid #ede8e2;
   text-align: center;
 }
 
@@ -48,13 +50,15 @@
   margin-top: 4px;
 }
 
-/* ===== FORM ===== */
+
+/* ========== FORM ========== */
+
 .form {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e5e0da;
-  margin-bottom: 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #ede8e2;
+  margin-bottom: 28px;
 }
 
 .form h3 {
@@ -74,74 +78,88 @@
 .form select,
 .form textarea {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #e5e0da;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid #ede8e2;
+  border-radius: 10px;
   font-size: 14px;
   background: #faf8f5;
   color: #1e1a16;
   margin-bottom: 12px;
+  transition: border 0.15s;
 }
 
 .form input:focus,
 .form select:focus,
 .form textarea:focus {
   outline: none;
-  border-color: #1e1a16;
+  border-color: #e07a5f;
 }
 
-.form button {
-  padding: 10px 20px;
-  background: #1e1a16;
+.formActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.formActions button {
+  padding: 10px 24px;
+  background: #e07a5f;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s;
 }
 
-.form button:hover {
-  background: #333;
+.formActions button:hover {
+  background: #c55a3e;
 }
 
-.form button.cancel {
-  background: #e5e0da;
+.formActions .cancel {
+  background: #f5f0eb;
   color: #1e1a16;
 }
 
-.form button.cancel:hover {
-  background: #d5d0ca;
+.formActions .cancel:hover {
+  background: #ede8e2;
 }
 
-/* ===== FILTERS ===== */
+
+/* ========== FILTERS ========== */
+
 .filters {
   display: flex;
   gap: 8px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .filters button {
   padding: 6px 16px;
   border-radius: 20px;
-  border: 1px solid #e5e0da;
+  border: 1px solid #ede8e2;
   background: white;
   color: #6b6560;
   cursor: pointer;
   font-size: 13px;
+  transition: all 0.15s;
 }
 
 .filters button:hover {
   background: #f5f0eb;
 }
 
-.filters button.active {
+.filters .active {
   background: #1e1a16;
   color: white;
   border-color: #1e1a16;
 }
 
-/* ===== ASSESSMENT LIST ===== */
+
+/* ========== LIST ========== */
+
 .list {
   display: flex;
   flex-direction: column;
@@ -149,10 +167,10 @@
 }
 
 .card {
-  background: white;
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 16px 20px;
-  border: 1px solid #e5e0da;
+  border: 1px solid #ede8e2;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -160,7 +178,8 @@
 }
 
 .card:hover {
-  border-color: #ccc;
+  border-color: #d5cdc5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 
 .card .info {
@@ -186,7 +205,7 @@
 }
 
 .card .info .overdue {
-  color: #dc2626;
+  color: #d17a6e;
   font-weight: 500;
   margin-left: 8px;
 }
@@ -197,11 +216,13 @@
 }
 
 .card .actions button {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
+  font-weight: 500;
+  transition: all 0.15s;
 }
 
 .card .actions .edit {
@@ -210,30 +231,34 @@
 }
 
 .card .actions .edit:hover {
-  background: #e5e0da;
+  background: #ede8e2;
 }
 
 .card .actions .delete {
-  background: #fee2e2;
-  color: #dc2626;
+  background: #fdf0ea;
+  color: #c55a3e;
 }
 
 .card .actions .delete:hover {
-  background: #fecaca;
+  background: #fce8df;
 }
 
-/* ===== EMPTY STATE ===== */
+
+/* ========== EMPTY STATE ========== */
+
 .empty {
   text-align: center;
-  padding: 40px;
+  padding: 48px 20px;
   color: #a39e99;
   font-size: 14px;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e5e0da;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #ede8e2;
 }
 
-/* ===== RESPONSIVE ===== */
+
+/* ========== RESPONSIVE ========== */
+
 @media (max-width: 768px) {
   .statsGrid {
     grid-template-columns: 1fr 1fr;
@@ -257,8 +282,107 @@
     flex: 1;
     text-align: center;
   }
+}
 
-  .filters {
-    flex-wrap: wrap;
+
+/* ========== TOGGLE FORM BUTTON ========== */
+
+.formWrapper {
+  margin-bottom: 28px;
+}
+
+.toggleFormBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: #e07a5f;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.toggleFormBtn:hover {
+  background: #c55a3e;
+}
+
+
+/* ========== COLLAPSIBLE FORM ========== */
+
+.form {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #ede8e2;
+  margin-top: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ========== FILTER BUTTONS ========== */
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  padding: 8px 20px;
+  border-radius: 30px;
+  border: 1px solid #ede8e2;
+  background: #ffffff;
+  color: #6b6560;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.filters button:hover {
+  background: #f5f0eb;
+  border-color: #d5cdc5;
+}
+
+.filters .active {
+  background: #1e1a16;
+  color: #ffffff;
+  border-color: #1e1a16;
+}
+
+.filters .active:hover {
+  background: #2a2a2a;
+}
+
+
+/* ========== COMPLETION BUTTON ========== */
+
+.complete {
+  background: #6b9e6b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.complete:hover {
+  opacity: 0.85;
 }

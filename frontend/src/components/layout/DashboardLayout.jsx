@@ -11,6 +11,7 @@ const DashboardLayout = ({ children, rightPanel }) => {
     { path: "/assessments", label: "Assessments" },
     { path: "/study-buddy", label: "Study Buddy" },
     { path: "/study-space", label: "Study Space" },
+    { path: "/settings", label: "Settings" }
   ];
 
   return (
@@ -27,26 +28,24 @@ const DashboardLayout = ({ children, rightPanel }) => {
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`${styles.navItem} ${
-                location.pathname === item.path ? styles.navItemActive : ""
-              }`}
+              className={`${styles.navItem} ${location.pathname === item.path ? styles.navItemActive : ""
+                }`}
             >
-              <span className={styles.navIcon}>{item.icon}</span>
               <span>{item.label}</span>
             </button>
           ))}
         </nav>
 
-        <button
+       <button
           onClick={() => {
             localStorage.removeItem("token");
             navigate("/login");
           }}
           className={`${styles.navItem} ${styles.logoutBtn}`}
         >
-          <span className={styles.navIcon}></span>
           <span>Logout</span>
         </button>
+
       </aside>
 
       {/* Main Content */}

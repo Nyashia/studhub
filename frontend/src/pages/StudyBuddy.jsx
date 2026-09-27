@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import { StudyBuddyProvider, useStudyBuddy } from '../context/StudyBuddyContext';
 import { useSocket } from '../context/SocketContext';
@@ -6,49 +6,8 @@ import { SessionProvider, useSession } from '../context/SessionContext';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/studybuddy.module.css';
 
-// ============= SUB-COMPONENT FOR NOTIFICATIONS =============
-const Notification = ({ notification, onClear }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => onClear(notification.id), 5000);
-    return () => clearTimeout(timer);
-  }, [notification.id, onClear]);
-
-  return (
-    <div style={{
-      position: 'fixed',
-      top: '20px',
-      right: '20px',
-      background: '#3b82f6',
-      color: 'white',
-      padding: '12px 20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-      zIndex: 1000,
-      animation: 'slideIn 0.3s ease'
-    }}>
-      <span>🔔 {notification.message}</span>
-      <button 
-        onClick={() => onClear(notification.id)} 
-        style={{ 
-          marginLeft: '10px', 
-          background: 'none', 
-          border: 'none', 
-          color: 'white', 
-          cursor: 'pointer',
-          fontSize: '16px'
-        }}
-      >
-        ×
-      </button>
-    </div>
-  );
-};
-
-// ============= MAIN CONTENT COMPONENT =============
 function StudyBuddyContent() {
   const navigate = useNavigate();
-  
-  // Context hooks
   const {
     friends,
     pendingRequests,
@@ -61,13 +20,7 @@ function StudyBuddyContent() {
     refresh
   } = useStudyBuddy();
 
-  const { 
-    sendNudge, 
-    isConnected, 
-    notifications, 
-    clearNotification 
-  } = useSocket();
-  
+  const { sendNudge, isConnected, notifications, clearNotification, onlineFriends } = useSocket();
   const {
     sessions,
     activeSession,
@@ -78,22 +31,26 @@ function StudyBuddyContent() {
     fetchActiveSessions
   } = useSession();
 
-  // Local state
   const [activeTab, setActiveTab] = useState('friends');
   const [friendIdentifier, setFriendIdentifier] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  
   const [sessionTopic, setSessionTopic] = useState('');
   const [sessionTimer, setSessionTimer] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
-  // ============= MEMOIZED VALUES =============
-  const friendCount = useMemo(() => friends.length, [friends]);
-  const pendingCount = useMemo(() => pendingRequests.length, [pendingRequests]);
-  const sessionCount = useMemo(() => sessions.length, [sessions]);
-  const activityCount = useMemo(() => activities.length, [activities]);
+  const userId = localStorage.getItem('userId');
 
-  // ============= TIMER LOGIC =============
+  useEffect(() => {
+    if (notifications.length > 0) {
+      const timer = setTimeout(() => {
+        clearNotification(notifications[0]?.id);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notifications, clearNotification]);
+
   useEffect(() => {
     let interval;
     if (isTimerRunning) {
@@ -104,203 +61,177 @@ function StudyBuddyContent() {
     return () => clearInterval(interval);
   }, [isTimerRunning]);
 
-  // ============= MESSAGE CLEARING =============
-  const clearMessages = useCallback(() => {
+  const handleSendRequest = async (e) => {
+    e.preventDefault();
     setSuccessMsg('');
     setErrorMsg('');
-  }, []);
-
-  const showSuccess = useCallback((message) => {
-    setSuccessMsg(message);
-    setTimeout(clearMessages, 3000);
-  }, [clearMessages]);
-
-  const showError = useCallback((message) => {
-    setErrorMsg(message);
-    setTimeout(clearMessages, 3000);
-  }, [clearMessages]);
-
-  // ============= FRIEND HANDLERS =============
-  const handleSendRequest = useCallback(async (e) => {
-    e.preventDefault();
-    clearMessages();
     
     if (!friendIdentifier.trim()) {
-      showError('Please enter an email or username');
+      setErrorMsg('Please enter an email or username');
       return;
     }
     
     const result = await sendFriendRequest(friendIdentifier);
     if (result.success) {
-      showSuccess(result.message);
+      setSuccessMsg(result.message);
       setFriendIdentifier('');
       refresh();
     } else {
-      showError(result.message);
+      setErrorMsg(result.message);
     }
-  }, [friendIdentifier, sendFriendRequest, refresh, showSuccess, showError, clearMessages]);
+    
+    setTimeout(() => {
+      setSuccessMsg('');
+      setErrorMsg('');
+    }, 3000);
+  };
 
-  const handleAccept = useCallback(async (requestId) => {
+  const handleAccept = async (requestId) => {
     await acceptRequest(requestId);
-  }, [acceptRequest]);
+  };
 
-  const handleDecline = useCallback(async (requestId) => {
+  const handleDecline = async (requestId) => {
     await declineRequest(requestId);
-  }, [declineRequest]);
+  };
 
-  const handleCheer = useCallback(async (friendId) => {
+  const handleCheer = async (friendId) => {
     const result = await cheerFriend(friendId);
     if (result.success) {
-      showSuccess('Cheer sent!');
+      setSuccessMsg('Cheer sent! 🎉');
+      setTimeout(() => setSuccessMsg(''), 2000);
     }
-  }, [cheerFriend, showSuccess]);
+  };
 
-  const handleNudge = useCallback((friendId, friendName) => {
+  const handleNudge = (friendId, friendName) => {
     sendNudge(friendId, `${friendName} sent you a nudge! Time to study`);
-    showSuccess(`Nudged ${friendName}!`);
-  }, [sendNudge, showSuccess]);
+    setSuccessMsg(`Nudged ${friendName}!`);
+    setTimeout(() => setSuccessMsg(''), 2000);
+  };
 
-  // ============= SESSION HANDLERS =============
-  const handleCreateSession = useCallback(async (e) => {
+  const handleCreateSession = async (e) => {
     e.preventDefault();
-    clearMessages();
-    
     if (!sessionTopic.trim()) {
-      showError('Please enter a topic');
+      setErrorMsg('Please enter a topic');
       return;
     }
-    
     const result = await createSession(sessionTopic);
     if (result.success) {
-      showSuccess('Session created! Share with friends.');
+      setSuccessMsg(`Session created!`);
       setSessionTopic('');
       setSessionTimer(0);
       setIsTimerRunning(true);
+      navigate(`/study-room/${result.data._id}`);
     } else {
-      showError(result.error);
+      setErrorMsg(result.error);
     }
-  }, [sessionTopic, createSession, showSuccess, showError, clearMessages]);
+    setTimeout(() => {
+      setSuccessMsg('');
+      setErrorMsg('');
+    }, 5000);
+  };
 
-  const handleJoinSession = useCallback(async (sessionId) => {
+  const handleJoinSession = async (sessionId, topic) => {
     const result = await joinSessionById(sessionId);
     if (result.success) {
       navigate(`/study-room/${sessionId}`);
     } else {
-      showError(result.error);
+      setErrorMsg(result.error);
+      setTimeout(() => setErrorMsg(''), 3000);
     }
-  }, [joinSessionById, navigate, showError]);
+  };
 
-  const handleLeaveSession = useCallback(async () => {
+  const handleLeaveSession = async () => {
     if (activeSession) {
       await leaveSession(activeSession._id);
       setIsTimerRunning(false);
       setSessionTimer(0);
-      showSuccess('Left session');
+      setSuccessMsg('Left session');
+      setTimeout(() => setSuccessMsg(''), 3000);
     }
-  }, [activeSession, leaveSession, showSuccess]);
+  };
 
-  const handleEndSession = useCallback(async () => {
-    if (activeSession?._id) {
+  const handleEndSession = async () => {
+    if (activeSession && activeSession._id) {
       const result = await endSession(activeSession._id);
       if (result.success) {
         setIsTimerRunning(false);
         setSessionTimer(0);
-        showSuccess(`Session ended! Duration: ${result.data.duration} minutes`);
+        setSuccessMsg(`Session ended! Duration: ${result.data.duration} minutes`);
+        setTimeout(() => setSuccessMsg(''), 5000);
       }
     } else {
-      showError('No active session to end');
+      setErrorMsg('No active session to end');
+      setTimeout(() => setErrorMsg(''), 3000);
     }
-  }, [activeSession, endSession, showSuccess, showError]);
+  };
 
-  // ============= UTILITY FUNCTIONS =============
-  const formatTime = useCallback((seconds) => {
+  const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }, []);
+  };
 
-  const formatDate = useCallback((date) => {
-    return new Date(date).toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }, []);
-
-  // ============= LOADING STATE =============
   if (loading) {
     return (
       <DashboardLayout>
-        <div className={styles.loading}>Loading your study buddies...</div>
+        <div className={styles.emptyState}>Loading your study buddies...</div>
       </DashboardLayout>
     );
   }
 
-  // ============= RENDER =============
   return (
     <DashboardLayout>
       <div className={styles.container}>
-        {/* Notifications */}
         {notifications.map(notif => (
-          <Notification 
-            key={notif.id} 
-            notification={notif} 
-            onClear={clearNotification} 
-          />
+          <div key={notif.id} style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: '#3b82f6',
+            color: 'white',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            zIndex: 1000
+          }}>
+            {notif.message}
+            <button 
+              onClick={() => clearNotification(notif.id)} 
+              style={{ marginLeft: '10px', background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}
+            >
+              ×
+            </button>
+          </div>
         ))}
 
-        {/* Header */}
         <div className={styles.header}>
-          <h1 className={styles.title}>Study Buddy</h1>
-          <p className={styles.subtitle}>Connect with friends and stay accountable</p>
-          {isConnected && (
-            <span style={{ fontSize: '12px', color: 'green' }}>
-              ● Connected
-            </span>
-          )}
+          <h1>Study Buddy</h1>
+          <p>Connect with friends and stay accountable</p>
         </div>
 
-        {/* Messages */}
         {successMsg && <div className={styles.successMessage}>{successMsg}</div>}
         {errorMsg && <div className={styles.errorMessage}>{errorMsg}</div>}
 
-        {/* Tabs */}
         <div className={styles.tabs}>
-          <button
-            onClick={() => setActiveTab('friends')}
-            className={`${styles.tab} ${activeTab === 'friends' ? styles.tabActive : ''}`}
-          >
-            Friends ({friendCount})
+          <button onClick={() => setActiveTab('friends')} className={`${styles.tab} ${activeTab === 'friends' ? styles.tabActive : ''}`}>
+            Friends ({friends.length})
           </button>
-          <button
-            onClick={() => setActiveTab('sessions')}
-            className={`${styles.tab} ${activeTab === 'sessions' ? styles.tabActive : ''}`}
-          >
+          <button onClick={() => setActiveTab('sessions')} className={`${styles.tab} ${activeTab === 'sessions' ? styles.tabActive : ''}`}>
             Sessions
           </button>
-          <button
-            onClick={() => setActiveTab('add')}
-            className={`${styles.tab} ${activeTab === 'add' ? styles.tabActive : ''}`}
-          >
+          <button onClick={() => setActiveTab('add')} className={`${styles.tab} ${activeTab === 'add' ? styles.tabActive : ''}`}>
             Add Friend
           </button>
-          <button
-            onClick={() => setActiveTab('activity')}
-            className={`${styles.tab} ${activeTab === 'activity' ? styles.tabActive : ''}`}
-          >
+          <button onClick={() => setActiveTab('activity')} className={`${styles.tab} ${activeTab === 'activity' ? styles.tabActive : ''}`}>
             Activity
           </button>
         </div>
 
-        {/* Friends Tab */}
         {activeTab === 'friends' && (
           <div className={styles.tabContent}>
             {pendingRequests.length > 0 && (
-              <div className={styles.section}>
-                <h3 className={styles.sectionTitle}>
-                  Pending Requests ({pendingCount})
-                </h3>
+              <div className={styles.card}>
+                <div className={styles.cardTitle}>Pending Requests ({pendingRequests.length})</div>
                 <div className={styles.requestList}>
                   {pendingRequests.map(request => (
                     <div key={request._id} className={styles.requestItem}>
@@ -309,18 +240,8 @@ function StudyBuddyContent() {
                         <div className={styles.requestEmail}>{request.from.email}</div>
                       </div>
                       <div className={styles.requestActions}>
-                        <button 
-                          onClick={() => handleAccept(request._id)} 
-                          className={styles.acceptBtn}
-                        >
-                          Accept
-                        </button>
-                        <button 
-                          onClick={() => handleDecline(request._id)} 
-                          className={styles.declineBtn}
-                        >
-                          Decline
-                        </button>
+                        <button onClick={() => handleAccept(request._id)} className={styles.acceptBtn}>Accept</button>
+                        <button onClick={() => handleDecline(request._id)} className={styles.declineBtn}>Decline</button>
                       </div>
                     </div>
                   ))}
@@ -328,189 +249,132 @@ function StudyBuddyContent() {
               </div>
             )}
 
-            <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Your Friends ({friendCount})</h3>
+            <div className={styles.card}>
+              <div className={styles.cardTitle}>Your Friends ({friends.length})</div>
               {friends.length === 0 ? (
-                <div className={styles.emptyState}>
-                  No friends yet. Go to "Add Friend" to connect!
-                </div>
+                <div className={styles.emptyState}>No friends yet.</div>
               ) : (
                 <div className={styles.friendsList}>
-                  {friends.map(friend => (
-                    <div key={friend._id} className={styles.friendItem}>
-                      <div className={styles.friendInfo}>
-                        <div className={styles.friendName}>{friend.name}</div>
-                        <div className={styles.friendEmail}>{friend.email}</div>
+                  {friends.map(friend => {
+                    const isOnline = onlineFriends.includes(friend._id);
+                    return (
+                      <div key={friend._id} className={styles.friendItem}>
+                        <div className={styles.friendInfo}>
+                          <div className={styles.friendName}>
+                            {friend.profilePicture ? (
+                              <img src={friend.profilePicture} alt={friend.name} className={styles.friendAvatar} />
+                            ) : (
+                              <span className={styles.friendInitial}>{friend.name?.[0]?.toUpperCase() || '?'}</span>
+                            )}
+                            {friend.name}
+                            <span className={`${styles.onlineDot} ${isOnline ? styles.online : styles.offline}`} />
+                          </div>
+                          <div className={styles.friendEmail}>{friend.email}</div>
+                        </div>
+                        <div className={styles.friendActions}>
+                          <button onClick={() => handleNudge(friend._id, friend.name)} className={styles.nudgeBtn}>Nudge</button>
+                          <button onClick={() => handleCheer(friend._id)} className={styles.cheerBtn}>Cheer</button>
+                        </div>
                       </div>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <button 
-                          onClick={() => handleNudge(friend._id, friend.name)}
-                          className={styles.nudgeBtn}
-                        >
-                          Nudge
-                        </button>
-                        <button 
-                          onClick={() => handleCheer(friend._id)}
-                          className={styles.cheerBtn}
-                        >
-                          Cheer
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* Sessions Tab */}
         {activeTab === 'sessions' && (
           <div className={styles.tabContent}>
-            {/* Active Session */}
-            {activeSession && (
-              <div className={styles.activeSession}>
-                <div className={styles.activeSessionHeader}>
-                  <div>
-                    <div className={styles.activeSessionTitle}>
-                      {activeSession.topic}
-                    </div>
-                    <div className={styles.activeSessionParticipants}>
-                      Participants: {activeSession.participants?.length || 1}
-                    </div>
-                  </div>
-                  <div>
-                    <button
-                      onClick={handleLeaveSession}
-                      className={styles.leaveSessionBtn}
-                    >
-                      Leave
-                    </button>
-                    <button
-                      onClick={handleEndSession}
-                      className={styles.endSessionBtn}
-                    >
-                      End Session
-                    </button>
-                  </div>
-                </div>
-                <div className={styles.activeSessionTimer}>
-                  Timer: {formatTime(sessionTimer)}
-                </div>
-                <div style={{ fontSize: '13px', color: '#666' }}>
-                  {isTimerRunning ? 'Session in progress' : 'Paused'}
-                </div>
-              </div>
-            )}
-
-            {/* Create Session */}
             <div className={styles.card}>
-              <h3 className={styles.cardTitle}>Start a Study Session</h3>
-              <form onSubmit={handleCreateSession} className={styles.createForm}>
+              <div className={styles.cardTitle}>Start a Session</div>
+              <form onSubmit={handleCreateSession} style={{ display: 'flex', gap: '12px' }}>
                 <input
                   type="text"
                   placeholder="What are you studying?"
                   value={sessionTopic}
                   onChange={(e) => setSessionTopic(e.target.value)}
-                  className={styles.createInput}
+                  style={{ flex: 1, padding: '10px 14px', border: '1px solid #ede8e2', borderRadius: '10px', fontSize: '14px', background: '#faf8f5' }}
                 />
-                <button type="submit" className={styles.createBtn}>
-                  Create Session
+                <button type="submit" style={{ padding: '10px 24px', background: '#e07a5f', color: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: 500 }}>
+                  Create
                 </button>
               </form>
             </div>
 
-            {/* Active Sessions List */}
-            <div className={styles.sessionContainer}>
-              <div className={styles.sessionHeader}>
-                <h3 className={styles.sessionTitle}>Active Sessions</h3>
-                <button
-                  onClick={fetchActiveSessions}
-                  className={styles.refreshBtn}
-                >
-                  Refresh
-                </button>
-              </div>
+            <div className={styles.card}>
+              <div className={styles.cardTitle}>Active Sessions</div>
               {sessions.length === 0 ? (
-                <div className={styles.emptyState}>
-                  No active sessions. Start one above!
-                </div>
+                <div className={styles.emptyState}>No active sessions.</div>
               ) : (
-                <div className={styles.sessionGrid}>
-                  {sessions.map(session => (
-                    <div key={session._id} className={styles.sessionCard}>
-                      <h4>{session.topic}</h4>
-                      <div className={styles.meta}>
-                        Created by: {session.createdBy?.name || 'Someone'}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {sessions.map(session => {
+                    const isCreator = session.createdBy?._id === userId || session.createdBy === userId;
+                    return (
+                      <div key={session._id} className={styles.sessionCard}>
+                        <div>
+                          <div className={styles.sessionTopic}>{session.topic}</div>
+                          <div className={styles.sessionMeta}>
+                            {session.createdBy?.name || 'Someone'} • {session.participants?.length || 1} studying
+                          </div>
+                        </div>
+                        {!isCreator && (
+                          <button onClick={() => handleJoinSession(session._id, session.topic)} className={styles.sessionJoinBtn}>
+                            Join Session
+                          </button>
+                        )}
                       </div>
-                      <div className={styles.participants}>
-                        Participants: {session.participants?.length || 1}
-                      </div>
-                      <div className={styles.meta}>
-                        Started: {formatDate(session.startTime)}
-                      </div>
-                      <div className={styles.badge}>Active</div>
-                      <div className={styles.sessionActions}>
-                        <button
-                          onClick={() => handleJoinSession(session._id)}
-                          className={styles.joinBtn}
-                        >
-                          Join Session
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* Add Friend Tab */}
         {activeTab === 'add' && (
           <div className={styles.tabContent}>
             <div className={styles.card}>
-              <h3 className={styles.cardTitle}>Add New Friend</h3>
+              <div className={styles.cardTitle}>Add a Friend</div>
               <form onSubmit={handleSendRequest} className={styles.addFriendForm}>
                 <input
                   type="text"
-                  placeholder="Enter friend's email or username"
+                  placeholder="Email or username"
                   value={friendIdentifier}
                   onChange={(e) => setFriendIdentifier(e.target.value)}
                   required
                   className={styles.addFriendInput}
                 />
-                <button type="submit" className={styles.addFriendBtn}>
-                  Send Request
-                </button>
+                <button type="submit" className={styles.addFriendBtn}>Send Request</button>
               </form>
-              <p style={{ fontSize: '12px', color: '#666', marginTop: '12px' }}>
-                Tip: You can search by email (name@example.com) or username
-              </p>
+              <p className={styles.hint}>Search by email or username</p>
             </div>
           </div>
         )}
 
-        {/* Activity Tab */}
         {activeTab === 'activity' && (
           <div className={styles.tabContent}>
             <div className={styles.card}>
-              <h3 className={styles.cardTitle}>Friend Activity</h3>
+              <div className={styles.cardTitle}> Friend Activity</div>
               {activities.length === 0 ? (
-                <div className={styles.emptyState}>
-                  No activity yet. Friends will show up here!
-                </div>
+                <div className={styles.emptyState}>No activity yet.</div>
               ) : (
                 <div className={styles.activityFeed}>
                   {activities.map(activity => (
                     <div key={activity._id} className={styles.activityItem}>
+                      <div className={styles.activityIcon}>
+                        {activity.type === 'completed_task' }
+                        {activity.type === 'completed_assessment' }
+                        {activity.type === 'cheered' }
+                        {activity.type === 'joined_studhub' }
+                        {activity.type === 'study_session'}
+                      </div>
                       <div className={styles.activityContent}>
                         <div className={styles.activityMessage}>
-                          {activity.message || 
-                            `${activity.user?.name || 'Someone'} ${activity.type.replace('_', ' ')}`}
+                          {activity.message || `${activity.user?.name || 'Someone'} did something`}
                         </div>
                         <div className={styles.activityTime}>
-                          {formatDate(activity.createdAt)}
+                          {formatTime(activity.createdAt)}
                         </div>
                       </div>
                     </div>
@@ -525,7 +389,6 @@ function StudyBuddyContent() {
   );
 }
 
-// ============= WRAPPED EXPORT =============
 function StudyBuddy() {
   return (
     <StudyBuddyProvider>

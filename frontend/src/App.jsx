@@ -6,28 +6,34 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import StudyBuddy from "./pages/StudyBuddy";
 import StudySpace from "./pages/StudySpace";
-import FullTimer from './components/timer/FullTimer';
-import StudyRoom from './pages/StudyRoom';
-import { SessionProvider } from './context/SessionContext';
+import StudyRoom from "./pages/StudyRoom";
+import Settings from "./pages/Settings";
+import { SessionProvider } from "./context/SessionContext";
 
-// Loading component while checking auth
+// ========== LOADING SCREEN ==========
+
 const LoadingScreen = () => (
-  <div style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    fontSize: "18px",
-    color: "#666"
-  }}>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      fontSize: "18px",
+      color: "#666"
+    }}
+  >
     Loading...
   </div>
 );
 
-// Protected Route component with token validation
+// ========== PROTECTED ROUTE ==========
+
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const token = localStorage.getItem("token");
+
+  // ========== VERIFY TOKEN ==========
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -59,29 +65,33 @@ const ProtectedRoute = ({ children }) => {
     verifyToken();
   }, [token]);
 
-  // Show loading while checking auth
+  // ========== AUTH CHECK ==========
+
   if (isAuthenticated === null) {
     return <LoadingScreen />;
   }
 
-  // Not authenticated, redirect to login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Authenticated, show the protected page
   return children;
 };
+
+// ========== APP ==========
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
+
+        {/* Public Routes */}
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected routes */}
+        {/* Protected Routes */}
+
         <Route
           path="/dashboard"
           element={
@@ -118,11 +128,14 @@ function App() {
           }
         />
 
-        <Route path="/timer" element={
-          <ProtectedRoute>
-            <FullTimer />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/study-room/:sessionId"
@@ -135,16 +148,26 @@ function App() {
           }
         />
 
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Default Route */}
 
-        {/* Catch all - 404 page */}
-        <Route path="*" element={
-          <div style={{ textAlign: "center", marginTop: "100px" }}>
-            <h1>404</h1>
-            <p>Page not found</p>
-            <a href="/login">Go to Login</a>
-          </div>
-        } />
+        <Route
+          path="/"
+          element={<Navigate to="/login" replace />}
+        />
+
+        {/* 404 Route */}
+
+        <Route
+          path="*"
+          element={
+            <div style={{ textAlign: "center", marginTop: "100px" }}>
+              <h1>404</h1>
+              <p>Page not found</p>
+              <a href="/login">Go to Login</a>
+            </div>
+          }
+        />
+
       </Routes>
     </Router>
   );
